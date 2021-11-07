@@ -145,8 +145,8 @@ def follow_index(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
-            'page_obj': page_obj,
-        }
+        'page_obj': page_obj,
+    }
     return render(request, template, context)
 
 
@@ -171,8 +171,8 @@ def profile_follow(request, username):
             Follow.objects.create(user=user, author=author)
 
     context = {
-            'author': author,
-        }
+        'author': author,
+    }
     return render(request, template, context)
 
 
@@ -183,6 +183,6 @@ def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)
     Follow.objects.get(user=user, author=author).delete()
     context = {
-            'author': author,
-        }
+        'author': author,
+    }
     return render(request, template, context)
