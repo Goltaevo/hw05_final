@@ -49,7 +49,7 @@ class Post(models.Model):
         ordering = ('-pub_date',)
 
     def __str__(self) -> str:
-        return self.text[:15]
+        return (self.text[:15])
 
 
 class Comment(models.Model):
@@ -76,6 +76,12 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии авторов'
         ordering = ('-created',)
 
+    def __str__(self) -> str:
+        return (
+            f'Комментарий "{self.text[:10]}"'
+            f' к посту номер {self.post.id}'
+        )
+
 
 class Follow(models.Model):
     user = ForeignKey(
@@ -96,3 +102,9 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Подписка на автора'
         verbose_name_plural = 'Подписки на авторов'
+
+    def __str__(self) -> str:
+        return (
+            f'Пользователь {self.user.username}'
+            f' подписан на автора {self.author.username}'
+        )

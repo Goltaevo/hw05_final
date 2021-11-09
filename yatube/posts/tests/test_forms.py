@@ -12,6 +12,14 @@ USERNAME: str = 'adminadmin'
 CREATE_POST_PAGE: str = reverse('posts:post_create')
 PROFILE_PAGE: str = f'/profile/{USERNAME}/'
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
+IMAGE_FOR_NEW_POST = (
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
+)
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
@@ -53,17 +61,9 @@ class PostCreateFormTest(TestCase):
         на страницу своего профайла.
         """
         posts_count_before_new_post = Post.objects.count()
-        image_for_new_post = (
-            b'\x47\x49\x46\x38\x39\x61\x02\x00'
-            b'\x01\x00\x80\x00\x00\x00\x00\x00'
-            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-            b'\x0A\x00\x3B'
-        )
         uploaded_image = SimpleUploadedFile(
             name='test.jpg',
-            content=image_for_new_post,
+            content=IMAGE_FOR_NEW_POST,
             content_type='image/jpg'
         )
         form = {
