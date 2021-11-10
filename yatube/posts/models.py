@@ -49,7 +49,7 @@ class Post(models.Model):
         ordering = ('-pub_date',)
 
     def __str__(self) -> str:
-        return (self.text[:15])
+        return self.text[:15]
 
 
 class Comment(models.Model):
@@ -68,7 +68,7 @@ class Comment(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='Ссылка на автора поста'
+        verbose_name='Ссылка на автора комментария'
     )
 
     class Meta:

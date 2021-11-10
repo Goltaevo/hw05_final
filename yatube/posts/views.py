@@ -66,13 +66,11 @@ def profile(request, username):
 def post_detail(request, post_id):
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.all()
     form = CommentForm()
 
     context = {
         'post': post,
         'form': form,
-        'comments': comments,
     }
     return render(request, template, context)
 

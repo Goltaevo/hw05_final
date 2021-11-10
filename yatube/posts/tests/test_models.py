@@ -1,5 +1,5 @@
 from django.test import TestCase
-from posts.models import Group, Post, User
+from posts.models import Comment, Follow, Group, Post, User
 
 
 class PostModelTest(TestCase):
@@ -7,6 +7,7 @@ class PostModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.author = User.objects.create(username='adminadmin')
+        cls.author_for_subscription = User.objects.create(username='leo')
         cls.group = Group.objects.create(title='Авто')
         cls.post = Post.objects.create(
             text='Давай напишем еще один тест',
@@ -27,6 +28,31 @@ class PostModelTest(TestCase):
         post = PostModelTest.post
         length_value_str_method = len(str(post))
         self.assertEqual(length_value_str_method, 15)
+
+    def test_expected_str_method_for_follow_object(self):
+        """__str__ method print usernames of user and author"""
+        follow = Follow.objects.create(
+            user=PostModelTest.author,
+            author=PostModelTest.author_for_subscription
+        )
+        expected_str_method_output = (
+            f'Пользователь {follow.user.username}'
+            f' подписан на автора {follow.author.username}'
+        )
+        self.assertEqual(expected_str_method_output, str(follow))
+
+    def test_expected_str_method_for_comment_object(self):
+        """__str__ method print comment text and post id"""
+        comment = Comment.objects.create(
+            text='коммент к посту',
+            post=PostModelTest.post,
+            author=PostModelTest.author
+        )
+        expected_str_method_output = (
+            f'Комментарий "{comment.text[:10]}"'
+            f' к посту номер {comment.post.id}'
+        )
+        self.assertEqual(expected_str_method_output, str(comment))
 
 
 class GroupModelTest(TestCase):
