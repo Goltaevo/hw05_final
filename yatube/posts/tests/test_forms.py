@@ -146,7 +146,7 @@ class PostCreateFormTest(TestCase):
         response = self.authorized_client.get(self.POST_PAGE)
         # Проверяем, что комменатрий присутствует на странице поста
         self.assertTrue(
-            response.context['comments'].filter(
+            response.context['post'].comments.filter(
                 text='комментарий для автотестов'
             ).exists()
         )
